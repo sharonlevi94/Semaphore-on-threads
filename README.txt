@@ -10,15 +10,17 @@ Programs are executed via terminal. './<runFileName>.
 ********************************************************************************** 
 //ex8a
   //master
-// this program creates the random numbers array and the shared memory.
+// this program creates the random numbers array,open a semaphore 
+//and the shared memory.
 // after checking that we have 3 different number makers, we look for
 // numbers to delete. this is all done by the number finders.
 // when the array is all set to be -1, we finish .
 // the output will be- how much time it took.
   //number maker
-// this program is the number creator for ex8a1
+// this program is the number creator for ex8a1, and connect to existed semaphore.
 // here we create random numbers that will delete the
 // numbers in the shared memory array.
+//the numbers creaters proccesses are Synchronized by the semaphore.
 // output will be- numbers sent, number deleted.
   // race modes-
 // none that we are aware of.
