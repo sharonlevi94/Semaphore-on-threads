@@ -2,7 +2,7 @@
 // OS- semester A- class B2
 // Bar Ifrah- ID 315566810 login:- barif
 // Sharon Levi ID 311593313 login:- sharonlevi
-// Date - December 14th, 2020
+// Date - January 18th, 2021
 //ex8a1
 // master process
 // this program creates the random numbers array and the shared memory.
@@ -48,7 +48,10 @@ int main() {
     time_t time_start, time_finish;
 
     sem_t *s; //create a semaphore
-    s=sem_open("/my_mutex20",O_CREAT,0600,3);
+   // sem_unlink("/my_mutex20");
+    s=sem_open("/semaphore1",O_CREAT,0600,3);
+    if(s==SEM_FAILED)
+        	terminate("cannot open semaphore\n");
 
     key = ftok(".", '8');   //defined in ex.
     shm_id = open_shared_memory(key);
@@ -57,6 +60,7 @@ int main() {
     build_array(shmem_ptr);
 
     can_i_sleep(shmem_ptr);         // checks 3 subprocesses array cells, abd sends signal
+
     time_start = time(NULL);
     if (!did_enter_signal_catcher) {
         pause();
