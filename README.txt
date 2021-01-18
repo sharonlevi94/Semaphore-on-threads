@@ -24,3 +24,14 @@ Programs are executed via terminal. './<runFileName>.
 // none that we are aware of.
 // output will be- 3 subprocesses data(as described), master time.
 **********************************************************************************
+**********************************************************************************
+//ex8b
+//this program create 3 threads- 2 servers and one fron end.
+//the frond end thread ask for an action from the user:
+//'g' for gc action or 'd' for caclculate prime factors.
+//after the user input the right numbers, it send it to the right thread and 
+//wait for an answer. each servers threads get the input and return the 
+//right result- gcd of 2 numbers or prime factors of a number.
+//after the front end thread got the answer it print the result to the screen. 
+//Compile: gcc -Wall ex7b.c -oex7b -lpthread
+//Run: ./ex8b
