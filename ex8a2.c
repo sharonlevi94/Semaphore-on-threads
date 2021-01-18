@@ -1,5 +1,5 @@
 // ex8a2
-// this program is the number creator for ex5a1
+// this program is the number creator for ex8a1
 // here we create random numbers that will delete the
 // numbers in the shared memory array.
 
@@ -33,7 +33,9 @@ int main(int argc, const char * argv[]) {
     int  location = 0, nums_created = 0, nums_deleted = 0;
 
     sem_t *s;
-    s=sem_open("/my_mutex20",0);
+    s=sem_open("/semaphore1",0);
+    if(s==SEM_FAILED)
+    	terminate("cannot open semaphore\n");
 
     key = ftok(".", '8');
     shm_id = shmget(key, 0, 0600);
@@ -48,8 +50,9 @@ int main(int argc, const char * argv[]) {
     shmem_ptr[atoi(argv[1])] = 1;
     master_pid = shmem_ptr[0];  // the master's pid
     // while all subprocesses are not = 1
+
     while (!can_while_run(shmem_ptr)) {}
-//    sleep(1);
+
     shmem_ptr[GLOBAL_COUNTER] = 0;
 
     while (can_while_run(shmem_ptr)) {
@@ -61,14 +64,17 @@ int main(int argc, const char * argv[]) {
         sem_wait(s);
         //critic segment:
         rand_num = rand() % RAND_RANGE;
+        printf("%d\n",rand_num);
         nums_created++;
         location = find_location(shmem_ptr, rand_num);
         if (location > -1) {
+        	printf("the number %d deleted\n",shmem_ptr[location]);
             delete_number(shmem_ptr, location);
             nums_deleted++;
             shmem_ptr[GLOBAL_COUNTER]+=1;
         }
         sem_post(s); // is unlocked now
+
     }
 
     kill(master_pid, SIGUSR1);     //to the 'father'
