@@ -35,5 +35,5 @@ Programs are executed via terminal. './<runFileName>.
 //wait for an answer. each servers threads get the input and return the 
 //right result- gcd of 2 numbers or prime factors of a number.
 //after the front end thread got the answer it print the result to the screen. 
-//Compile: gcc -Wall ex7b.c -oex7b -lpthread
+//Compile: gcc -Wall ex8b.c -oex8b -lpthread -lrt
 //Run: ./ex8b
