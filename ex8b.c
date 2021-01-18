@@ -94,7 +94,6 @@ void *front_end_thread(void *arg) {
             printf("gcd is: %d\n", gcd_arr[2]);
             
         }else if (get_action == PRIME_FACTORS_ACTION){
-            puts("picked PRIMES");
             scanf("%d",&prime_factors_arr[0]);
             if(pthread_mutex_unlock(&mutex)) terminate("failed to open semaphore");
             if(pthread_cond_signal(&cv_primes)) terminate("failed to send signal");
@@ -108,9 +107,9 @@ void *front_end_thread(void *arg) {
 //-------------------------------------------------------------------------
 void *gcd_thread(void *arg) {
     signal(SIGINT, sigint_handler);
-    printf("GCD!\n");
     while(1){
         if(pthread_cond_wait(&cv_gcd, & mutex)) terminate("no signal");// wait for signal in order to run
+        printf("GCD!\n");
         gcd_arr[2]=find_gcd(gcd_arr[0],gcd_arr[1]);
         printf("received: %d, %d\n",gcd_arr[0],gcd_arr[1]);
         pthread_kill(threads_array[0], SIGUSR1);
@@ -121,11 +120,10 @@ void *gcd_thread(void *arg) {
 //---------------------------------------------------------------------------
 void *primes_thread(void *arg)
 {
-    printf("%d\n", prime_factors_arr[0]);
     signal(SIGINT, sigint_handler);
     while(1) {
         if(pthread_cond_wait(&cv_primes, & mutex)) terminate("no signal");// wait for signal in order to run
-        printf("%d\n", prime_factors_arr[0]);
+        printf("PRIMES\nreceived %d\n", prime_factors_arr[0]);
         find_primary_factors(prime_factors_arr[0]);
         pthread_kill(threads_array[FRONT_END],SIGUSR1);
         if(pthread_mutex_unlock(& mutex)) terminate("mutex failure");
@@ -135,7 +133,6 @@ void *primes_thread(void *arg)
 //---------------------------------------------------------------------------
 void sigint_handler(int signum)
 {
-    printf("sigint sent\n");
     signal(SIGINT, sigint_handler);
     // condition destroyer
     pthread_cond_broadcast(&cv_gcd);
@@ -148,7 +145,6 @@ void sigint_handler(int signum)
 }
 //---------------------------------------------------------------------------
 void sigusr1_handler(int signum) {
-    printf("sigusr1 was sent\n");
     if(pthread_mutex_lock(&mutex)) terminate("failed to lock front end thread");
 }
 //-------------------------------------------------------------------------
