@@ -2,7 +2,7 @@
 // OS- semester A- class B2 
 // Bar Ifrah-  login:- barif 
 // Sharon Levi  login:- sharonlevi 
-// Date - December 21tst, 2020
+// Date - January 18st, 2021
 **********************************************************************************
 ALL PROGRAMS ARE EXECUTED VIA UNIX TERMINAL ALL PROGRAMS COMPILED VIA TERMINAL-
 USING COMMAND "gcc -Wall (filename.cc) -o (runfilename) -lpthread -lrt
